@@ -2,12 +2,12 @@ spring:
   application:
     name: @project.name@
   # SECURITY
-#  security:
-#    oauth2:
-#      resourceserver:
-#        jwt:
-#          issuer-uri: ${TOKEN_ISSUER_URI:http://localhost:18080/auth/realms/master}
-#          jwk-set-uri: ${TOKEN_CERTS_URI:http://localhost:18080/auth/realms/master/protocol/openid-connect/certs}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${TOKEN_ISSUER_URI:http://localhost:18080/auth/realms/master}
+          jwk-set-uri: ${TOKEN_CERTS_URI:http://localhost:18080/auth/realms/master/protocol/openid-connect/certs}
   # DATABASE
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQL10Dialect
