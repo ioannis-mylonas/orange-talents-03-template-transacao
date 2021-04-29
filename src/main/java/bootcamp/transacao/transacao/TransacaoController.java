@@ -31,10 +31,10 @@ public class TransacaoController {
         client.stop(cartao);
     }
 
-//    @GetMapping("/cartoes/{id}/transacoes")
-//    public List<Transacao> list(@PathVariable("id") String cartao,
-//                                @PageableDefault(size = 10, page = 0, sort = {"efetivadaEm"}, direction = Sort.Direction.DESC) Pageable pageable) {
-//
-//        return transacaoRepository.findAllByCartao_legacyId(cartao, pageable);
-//    }
+    @GetMapping("/cartoes/{id}/transacoes")
+    public List<Transacao> list(@PathVariable("id") String cartao,
+                                @PageableDefault(size = 10, page = 0, sort = {"efetivadaEm"}, direction = Sort.Direction.DESC) Pageable pageable) {
+
+        return transacaoRepository.findAllByCartao_legacyId(cartao, pageable);
+    }
 }
