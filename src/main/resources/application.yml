@@ -34,11 +34,6 @@ opentracing:
   jaeger:
     http-sender:
       url: ${JAEGER_URL:http://localhost:14268/api/traces}
-  # FEIGN
-  spring:
-    cloud:
-      feign:
-        enabled: false
 # BOOTCAMP CONFIGS
 bootcamp:
   aes-key: ${AES_SECRET:mYq3t6w9z$C&F)H@McQfTjWnZr4u7x!A}
