@@ -1,10 +1,14 @@
 package bootcamp.transacao.transacao;
 
+import bootcamp.transacao.cartao.Cartao;
+import bootcamp.transacao.cartao.CartaoRepository;
 import bootcamp.transacao.client.TransacaoClient;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -14,10 +18,14 @@ import java.util.List;
 public class TransacaoController {
     private final TransacaoClient client;
     private final TransacaoRepository transacaoRepository;
+    private final CartaoRepository cartaoRepository;
 
-    public TransacaoController(TransacaoClient client, TransacaoRepository transacaoRepository) {
+    public TransacaoController(TransacaoClient client,
+                               TransacaoRepository transacaoRepository,
+                               CartaoRepository cartaoRepository) {
         this.client = client;
         this.transacaoRepository = transacaoRepository;
+        this.cartaoRepository = cartaoRepository;
     }
 
     @PostMapping("/cartoes/{id}/transacoes")
@@ -32,9 +40,12 @@ public class TransacaoController {
     }
 
     @GetMapping("/cartoes/{id}/transacoes")
-    public List<Transacao> list(@PathVariable("id") String cartao,
-                                @PageableDefault(size = 10, page = 0, sort = {"efetivadaEm"}, direction = Sort.Direction.DESC) Pageable pageable) {
+    public List<Transacao> list(@PathVariable("id") String cartaoId,
+                                                @PageableDefault(size = 10, page = 0, sort = {"efetivadaEm"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        Cartao cartao = cartaoRepository
+                .findByLegacyId(cartaoId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        return transacaoRepository.findAllByCartao_legacyId(cartao, pageable);
+        return transacaoRepository.findAllByCartao(cartao, pageable);
     }
 }
