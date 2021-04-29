@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: @project.name@
+  # SECURITY
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          issuer-uri: ${TOKEN_ISSUER_URI:http://localhost:18080/auth/realms/master}
+#          jwk-set-uri: ${TOKEN_CERTS_URI:http://localhost:18080/auth/realms/master/protocol/openid-connect/certs}
+  # DATABASE
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    show-sql: true
+    hibernate.ddl-auto: create
+  datasource:
+    url: jdbc:postgresql://${DATABASE_URL:localhost:5432/transacoes?autoReconnect=true&createDatabaseIfNotExist=true}
+    username: ${DATABASE_USERNAME:keycloak}
+    password: ${DATABASE_PASSWORD:password}
+    driverClassName: org.postgresql.Driver
+# PROMETHEUS
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include:
+          - prometheus
+  endpoint:
+    prometheus:
+      enabled: true
+# JAEGER
+opentracing:
+  jaeger:
+    http-sender:
+      url: ${JAEGER_URL:http://localhost:14268/api/traces}
+  # FEIGN
+  spring:
+    cloud:
+      feign:
+        enabled: false
+# BOOTCAMP CONFIGS
+bootcamp:
+  aes-key: ${AES_SECRET:mYq3t6w9z$C&F)H@McQfTjWnZr4u7x!A}
+  transacoes-url: ${TRANSACOES_URL:http://localhost:7777}
+  kafka-url: ${KAFKA_URL:http://localhost:9092}
+  kafka-group: ${KAFKA_GROUP:transacoes}
